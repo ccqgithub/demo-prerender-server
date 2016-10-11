@@ -1,14 +1,23 @@
 #!/usr/bin/env node
 
-process.env.BASIC_AUTH_USERNAME = 'season';
-process.env.BASIC_AUTH_PASSWORD = '123456';
-process.env.ALLOWED_DOMAINS = 'localhost,www.baidu.com';
-process.env.BLACKLISTED_DOMAINS = '';
-
+// var program = require('commander');
+var config = require('./config/prod');
 var prerender = require('prerender');
 
+// 参数
+// program
+//   .option('-p, --port [port]', '[koa server:] Specify the port', parseInt)
+//   .option('--env [env]', '[koa server:] Specify the env(dev by default)')
+//   .parse(process.argv);
+
+// 设置环境变量给prerender插件
+process.env.BASIC_AUTH_USERNAME = config.basic_auth_username;
+process.env.BASIC_AUTH_PASSWORD = config.basic_auth_password;
+process.env.ALLOWED_DOMAINS = config.allowed_domains;
+process.env.BLACKLISTED_DOMAINS = config.blacklisted_domains;
+
 var server = prerender({
-  port: 3000,
+  port: config.port,
   workers: 1,
   iterations: 40,
   softIterations: 30,
@@ -25,10 +34,10 @@ var server = prerender({
 
 // <meta name="prerender-status-code" content="302">
 // <meta name="prerender-header" content="Location: http://www.google.com">
-
 server.use(prerender.sendPrerenderHeader());
+
 server.use(prerender.basicAuth());
-// server.use(prerender.whitelist());
+server.use(prerender.whitelist());
 server.use(prerender.blacklist());
 server.use(prerender.logger());
 server.use(prerender.removeScriptTags());

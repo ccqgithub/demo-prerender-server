@@ -41,7 +41,7 @@ function stopServer() {
 function startServer() {
   var serverJs = path.join(projectPath, 'server.js');
   var logFile = path.join(projectPath, 'logs/pm2.log');
-  var fisCommand = 'pm2 start '+ serverJs +' --watch --ignore-watch logs --name prerender -f --log='+ logFile + ' -- ' + '--port '+ port;
+  var fisCommand = 'pm2 start ' + serverJs + ' --name prerender -f --log='+ logFile + ' -- ' + '--port '+ port;
   var child;
 
   mkdirsSync(path.dirname(logFile));
