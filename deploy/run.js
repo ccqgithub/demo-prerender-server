@@ -6,11 +6,11 @@ var fs = require('fs');
 var projectPath = path.join(__dirname, '../');
 
 program
-  .option('-p, --port [port]', '[prerender server:] Specify the port(3000 by default)', parseInt)
+  .option('--env [env]', '[prerender server:] Specify the port(local by default)')
   .parse(process.argv);
 
 // fis
-var port = program.port || 3000;
+var env = program.env || 'local';
 
 // 创建目录
 function mkdirsSync(dirname, mode) {
@@ -41,7 +41,7 @@ function stopServer() {
 function startServer() {
   var serverJs = path.join(projectPath, 'server.js');
   var logFile = path.join(projectPath, 'logs/pm2.log');
-  var fisCommand = 'pm2 start ' + serverJs + ' --name prerender -f --log='+ logFile + ' -- ' + '--port '+ port;
+  var fisCommand = 'pm2 start ' + serverJs + ' --name prerender -f --log='+ logFile + ' -- ' + '--env '+ env;
   var child;
 
   mkdirsSync(path.dirname(logFile));

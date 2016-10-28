@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-// var program = require('commander');
-var config = require('./config/prod');
+var program = require('commander');
 var prerender = require('prerender');
 
 // 参数
-// program
-//   .option('-p, --port [port]', '[koa server:] Specify the port', parseInt)
-//   .option('--env [env]', '[koa server:] Specify the env(dev by default)')
-//   .parse(process.argv);
+program
+  .option('--env [env]', '[koa server:] Specify the env(local by default)')
+  .parse(process.argv);
+
+var config = require('./config/' + program.env);
 
 // 设置环境变量给prerender插件
 process.env.BASIC_AUTH_USERNAME = config.basic_auth_username;

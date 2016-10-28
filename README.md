@@ -16,7 +16,7 @@ just use [koa-prerender-m](https://github.com/ccqgithub/koa-prerender-m);
 
 `npm install -g pm2`
 
-`node deploy/run.js`
+`node deploy/run.js --env prod` // env 表示发布的环境，对应config下相应配置
 
 ## 访问
 
